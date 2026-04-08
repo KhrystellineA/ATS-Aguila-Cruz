@@ -1,6 +1,11 @@
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
 class Client extends Model {
+    use Notifiable;
+
     protected $fillable = [
-        'name','email','phone','referral_code',
+        'name','email','phone','referral_code','pending_referral_code',
         'total_points','points_earned','points_redeemed',
         'is_expired','last_activity_at'
     ];

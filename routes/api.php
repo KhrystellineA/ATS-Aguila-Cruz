@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('clients', ClientController::class);
     Route::post('/clients/{client}/adjust-points', [ClientController::class, 'adjustPoints']);
+    Route::post('/clients/{client}/approve-code-change', [ClientController::class, 'approveCodeChange']);
+    Route::post('/clients/{client}/reject-code-change', [ClientController::class, 'rejectCodeChange']);
 
     Route::apiResource('referrals', ReferralController::class);
     Route::apiResource('rewards', RewardController::class);

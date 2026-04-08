@@ -92,10 +92,8 @@ class PublicController extends Controller
             return response()->json(['message' => 'Referral code already exists. Please choose a different code.'], 422);
         }
 
-        // Store pending code change (we'll add a pending_referral_code column or use a separate table)
-        // For simplicity, we'll store it in a separate table or as a temporary solution
-        // In a full implementation, we'd have a code_change_requests table
-        // For now, we'll just validate and return success - admin would need to approve manually
+        // Store as pending — admin must approve
+        $client->update(['pending_referral_code' => strtoupper($request->new_code)]);
 
         return response()->json(['message' => 'Code change request submitted. Admin approval required.']);
     }

@@ -8,6 +8,8 @@ use App\Models\Reward;
 use App\Models\Client;
 use App\Services\PointsService;
 use App\Models\AuditLog;
+use App\Notifications\RedemptionApproved;
+use App\Notifications\RedemptionRejected;
 use Illuminate\Http\Request;
 
 class RedemptionController extends Controller
@@ -104,6 +106,11 @@ class RedemptionController extends Controller
             ],
         ]);
 
+        // Send notification
+        if ($client->email) {
+            $client->notify(new RedemptionApproved($client, $redemption));
+        }
+
         return response()->json($redemption->load(['client', 'reward']));
     }
 
@@ -128,6 +135,11 @@ class RedemptionController extends Controller
                 'reward_id' => $redemption->reward_id,
             ],
         ]);
+
+        // Send notification
+        if ($redemption->client->email) {
+            $redemption->client->notify(new RedemptionRejected($redemption->client, $redemption));
+        }
 
         return response()->json($redemption->load(['client', 'reward']));
     }

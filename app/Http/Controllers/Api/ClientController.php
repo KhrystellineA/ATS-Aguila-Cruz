@@ -8,6 +8,7 @@ use App\Models\PointRule;
 use App\Services\ReferralCodeService;
 use App\Services\PointsService;
 use App\Models\AuditLog;
+use App\Notifications\CodeChangeApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -142,5 +143,62 @@ class ClientController extends Controller
                 ->limit(10)
                 ->get(),
         ]);
+    }
+
+    public function approveCodeChange(Request $request, Client $client)
+    {
+        if (!$client->pending_referral_code) {
+            return response()->json(['message' => 'No pending code change'], 422);
+        }
+
+        $referralCodeService = app(ReferralCodeService::class);
+        $newCode = strtoupper($client->pending_referral_code);
+
+        // Re-validate uniqueness (in case it changed since request)
+        if (!$referralCodeService->isUnique($newCode, $client->id)) {
+            $client->update(['pending_referral_code' => null]);
+            return response()->json(['message' => 'Code is no longer available'], 422);
+        }
+
+        $oldCode = $client->referral_code;
+        $client->update([
+            'referral_code' => $newCode,
+            'pending_referral_code' => null,
+        ]);
+
+        AuditLog::create([
+            'admin_user_id' => auth()->id() ?? 1,
+            'action' => 'code_change_approved',
+            'target_type' => 'Client',
+            'target_id' => $client->id,
+            'payload' => ['old_code' => $oldCode, 'new_code' => $newCode],
+        ]);
+
+        // Send notification
+        if ($client->email) {
+            $client->notify(new CodeChangeApproved($client, $oldCode, $newCode));
+        }
+
+        return response()->json(['message' => 'Code change approved', 'client' => $client]);
+    }
+
+    public function rejectCodeChange(Request $request, Client $client)
+    {
+        if (!$client->pending_referral_code) {
+            return response()->json(['message' => 'No pending code change'], 422);
+        }
+
+        $rejectedCode = $client->pending_referral_code;
+        $client->update(['pending_referral_code' => null]);
+
+        AuditLog::create([
+            'admin_user_id' => auth()->id() ?? 1,
+            'action' => 'code_change_rejected',
+            'target_type' => 'Client',
+            'target_id' => $client->id,
+            'payload' => ['rejected_code' => $rejectedCode],
+        ]);
+
+        return response()->json(['message' => 'Code change rejected']);
     }
 }

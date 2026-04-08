@@ -15,13 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin user
-        User::create([
-            'name' => 'Ian Monteza',
-            'email' => 'ian@tats.com',
-            'password' => Hash::make('change-me-in-prod'),
-            'role' => 'admin',
-        ]);
+        // Admin user (single admin — no role column needed)
+        User::firstOrCreate(
+            ['email' => 'ian@tats.com'],
+            [
+                'name' => 'Ian Monteza',
+                'password' => Hash::make('change-me-in-prod'),
+            ]
+        );
 
         // Default point rules
         foreach (['minimalist'=>50, 'medium'=>100, 'big'=>250] as $size => $pts) {
