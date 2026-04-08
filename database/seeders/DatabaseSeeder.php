@@ -2,24 +2,37 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\PointRule;
+use App\Models\Setting;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Admin user
+        User::create([
+            'name' => 'Ian Monteza',
+            'email' => 'ian@tats.com',
+            'password' => Hash::make('change-me-in-prod'),
+            'role' => 'admin',
         ]);
+
+        // Default point rules
+        foreach (['minimalist'=>50, 'medium'=>100, 'big'=>250] as $size => $pts) {
+            PointRule::create([
+                'tattoo_size' => $size,
+                'points_awarded' => $pts,
+            ]);
+        }
+
+        // Default settings
+        Setting::create(['key' => 'expiration_days', 'value' => '365']);
+        Setting::create(['key' => 'notifications_enabled', 'value' => 'true']);
     }
 }
