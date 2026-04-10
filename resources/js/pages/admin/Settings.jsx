@@ -51,17 +51,17 @@ export default function Settings() {
     }
   };
 
-  if (loading) return <div className="p-8 text-gray-500">Loading...</div>;
+  if (loading) return <div className="p-8 text-purple-400">LOADING...</div>;
 
   return (
     <div className="p-6 lg:p-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+      <h1 className="text-3xl font-bold text-gradient mb-6 tracking-wider">SETTINGS</h1>
 
-      {msg && <div className={`p-3 rounded-lg mb-4 ${msg.includes('Failed') ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{msg}</div>}
+      {msg && <div className={`p-3 rounded-lg mb-4 border tracking-wider ${msg.includes('Failed') ? 'bg-red-900/30 text-red-400 border-red-800' : 'bg-green-900/30 text-green-400 border-green-800'}`}>{msg}</div>}
 
       {/* General Settings */}
-      <div className="bg-white rounded-xl shadow p-6 mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">General Settings</h2>
+      <div className="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-purple-800 p-6 mb-6">
+        <h2 className="text-lg font-bold text-gradient mb-4 tracking-wider">GENERAL SETTINGS</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <Input
@@ -75,7 +75,7 @@ export default function Settings() {
               disabled={saving}
               className="mt-2"
             >
-              Save
+              SAVE
             </Button>
           </div>
           <div>
@@ -84,31 +84,32 @@ export default function Settings() {
                 type="checkbox"
                 checked={settings.notifications_enabled === 'true'}
                 onChange={e => setSettings({ ...settings, notifications_enabled: e.target.checked ? 'true' : 'false' })}
+                className="w-4 h-4 rounded border-purple-700 bg-gray-800 focus:ring-purple-600"
               />
-              <span className="text-sm font-medium text-gray-700">Notifications Enabled</span>
+              <span className="text-xs font-medium text-purple-400 tracking-wider">NOTIFICATIONS ENABLED</span>
             </label>
             <Button
               onClick={() => handleSaveSetting('notifications_enabled', settings.notifications_enabled)}
               disabled={saving}
               className="mt-2"
             >
-              Save
+              SAVE
             </Button>
           </div>
         </div>
       </div>
 
       {/* Point Rules */}
-      <div className="bg-white rounded-xl shadow p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Point Rules (per tattoo size)</h2>
-        <p className="text-sm text-gray-500 mb-4">Configure how many points are awarded per tattoo size. Both the referrer and referred client earn this amount.</p>
+      <div className="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-purple-800 p-6">
+        <h2 className="text-lg font-bold text-gradient mb-4 tracking-wider">POINT RULES (PER TATTOO SIZE)</h2>
+        <p className="text-xs text-gray-400 mb-4 tracking-wider">Configure how many points are awarded per tattoo size. Both the referrer and referred client earn this amount.</p>
         <div className="grid md:grid-cols-3 gap-4">
           {['minimalist', 'medium', 'big'].map(size => {
             const rule = rules.find(r => r.tattoo_size === size);
             if (!rule) return null;
             return (
-              <div key={size} className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold capitalize mb-2">{size}</h3>
+              <div key={size} className="border border-purple-800 rounded-lg p-4 bg-gray-800/30">
+                <h3 className="font-bold capitalize mb-2 text-purple-300 tracking-wider">{size}</h3>
                 <Input
                   type="number"
                   value={rule.points_awarded}
@@ -122,14 +123,14 @@ export default function Settings() {
                   disabled={saving}
                   className="mt-2 w-full"
                 >
-                  Save
+                  SAVE
                 </Button>
               </div>
             );
           })}
         </div>
-        <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
-          <strong>Default values:</strong> Minimalist = 50, Medium = 100, Big = 250
+        <div className="mt-4 p-3 bg-gray-800/50 rounded-lg text-xs text-gray-400 border border-gray-700 tracking-wider">
+          <strong>DEFAULT VALUES:</strong> MINIMALIST = 50, MEDIUM = 100, BIG = 250
         </div>
       </div>
     </div>

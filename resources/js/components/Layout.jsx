@@ -26,10 +26,10 @@ export default function Layout() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-950">
       {/* Mobile hamburger */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-900 text-white rounded"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-900 text-purple-400 rounded border border-purple-700"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
@@ -37,13 +37,13 @@ export default function Layout() {
 
       {/* Sidebar */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-40 w-64 bg-gray-900 text-white flex flex-col
+        fixed lg:static inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-gray-900 to-black text-white flex flex-col border-r-2 border-purple-800
         transform transition-transform duration-200 lg:translate-x-0
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="p-6 border-b border-gray-700">
-          <h1 className="text-xl font-bold">TATS by TATS</h1>
-          <p className="text-sm text-gray-400">Admin Dashboard</p>
+        <div className="p-6 border-b border-purple-900">
+          <h1 className="text-2xl font-bold glow-text tracking-wider" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.1em' }}>TATS by TATS</h1>
+          <p className="text-xs text-purple-400 mt-1 tracking-widest" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.15em' }}>ADMIN TERMINAL</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
@@ -55,22 +55,24 @@ export default function Layout() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-                  isActive ? 'bg-red-600 text-white' : 'text-gray-300 hover:bg-gray-800'
+                className={`flex items-center gap-3 px-4 py-2 rounded transition-all border ${
+                  isActive 
+                    ? 'bg-gradient-to-r from-purple-800 to-purple-900 text-white border-purple-600 glow-purple' 
+                    : 'text-gray-400 hover:bg-gray-900 hover:text-purple-300 border-transparent hover:border-purple-800'
                 }`}
               >
-                <Icon size={20} />
-                <span>{item.label}</span>
+                <Icon size={18} />
+                <span className="text-sm tracking-wider">{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-700">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-400">{user?.name || 'Admin'}</span>
-            <button onClick={handleLogout} className="text-gray-400 hover:text-white">
-              <LogOut size={20} />
+        <div className="p-4 border-t border-purple-900">
+          <div className="flex items-center justify-between bg-gray-900/50 p-2 rounded border border-purple-900">
+            <span className="text-xs text-purple-400 tracking-wider">{user?.name || 'Admin'}</span>
+            <button onClick={handleLogout} className="text-gray-500 hover:text-purple-400 transition-colors">
+              <LogOut size={18} />
             </button>
           </div>
         </div>
@@ -79,13 +81,13 @@ export default function Layout() {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/70 z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto relative">
         <Outlet />
       </main>
     </div>

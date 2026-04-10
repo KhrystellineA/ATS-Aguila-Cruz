@@ -30,16 +30,34 @@ class ClientController extends Controller
             'email' => 'nullable|email|unique:clients',
             'phone' => 'nullable|string',
             'tattoo_size' => 'required|in:minimalist,medium,big',
+            'referral_code' => 'nullable|string|max:7|unique:clients',
         ]);
 
         $referralCodeService = app(ReferralCodeService::class);
-        $code = $referralCodeService->generate();
+        
+        // Use provided code or auto-generate
+        if (empty($data['referral_code'])) {
+            $code = $referralCodeService->generate();
+        } else {
+            $code = strtoupper($data['referral_code']);
+            // Validate format
+            if (!$referralCodeService->validate($code)) {
+                return response()->json(['message' => 'Invalid referral code format. Use 3-4 letters + 3 digits (e.g. ABC123)'], 422);
+            }
+            // Validate uniqueness
+            if (!$referralCodeService->isUnique($code)) {
+                return response()->json(['message' => 'Referral code is already taken'], 422);
+            }
+        }
 
         $points = PointRule::where('tattoo_size', $data['tattoo_size'])
             ->value('points_awarded');
 
         $client = Client::create([
-            ...$data,
+            'name' => $data['name'],
+            'email' => $data['email'] ?? null,
+            'phone' => $data['phone'] ?? null,
+            'tattoo_size' => $data['tattoo_size'],
             'referral_code' => $code,
             'last_activity_at' => now(),
         ]);
@@ -53,7 +71,7 @@ class ClientController extends Controller
             'action' => 'client_created',
             'target_type' => 'Client',
             'target_id' => $client->id,
-            'payload' => ['name' => $client->name],
+            'payload' => ['name' => $client->name, 'referral_code' => $code],
         ]);
 
         return response()->json($client, 201);

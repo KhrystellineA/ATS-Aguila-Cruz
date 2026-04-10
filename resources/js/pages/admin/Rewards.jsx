@@ -48,37 +48,37 @@ export default function Rewards() {
     fetchRewards();
   };
 
-  if (loading) return <div className="p-8 text-gray-500">Loading...</div>;
+  if (loading) return <div className="p-8 text-purple-400">LOADING...</div>;
 
   return (
     <div className="p-6 lg:p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Rewards</h1>
+        <h1 className="text-3xl font-bold text-gradient tracking-wider">REWARDS</h1>
         <Button onClick={() => { setEditing(null); setForm({ name: '', description: '', points_required: 0, type: 'discount_percent', value: 0, is_active: true }); setShowForm(true); }}>
-          + Add Reward
+          + ADD REWARD
         </Button>
       </div>
 
-      {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4">{error}</div>}
+      {error && <div className="bg-red-900/30 text-red-400 border border-red-800 p-3 rounded-lg mb-4 tracking-wider">{error}</div>}
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {rewards.map(r => (
-          <div key={r.id} className={`bg-white rounded-xl shadow p-5 ${!r.is_active ? 'opacity-50' : ''}`}>
+          <div key={r.id} className={`bg-gray-900/90 backdrop-blur-sm rounded-lg border p-5 transition-all hover:glow-purple ${!r.is_active ? 'opacity-50 border-gray-700' : 'border-purple-800 hover:border-purple-600'}`}>
             <div className="flex items-start justify-between mb-2">
-              <h3 className="font-bold text-gray-900">{r.name}</h3>
-              <span className={`px-2 py-0.5 rounded text-xs ${r.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}`}>
-                {r.is_active ? 'Active' : 'Inactive'}
+              <h3 className="font-bold text-white text-gradient">{r.name}</h3>
+              <span className={`px-2 py-0.5 rounded text-xs border ${r.is_active ? 'bg-green-900/30 text-green-400 border-green-800' : 'bg-gray-800 text-gray-400 border-gray-700'}`}>
+                {r.is_active ? 'ACTIVE' : 'INACTIVE'}
               </span>
             </div>
-            <p className="text-sm text-gray-500 mb-3">{r.description || 'No description'}</p>
+            <p className="text-xs text-gray-400 mb-3">{r.description || 'No description'}</p>
             <div className="flex items-center justify-between">
-              <span className="text-red-600 font-bold">{r.points_required} pts</span>
-              <div className="flex gap-1">
-                <button onClick={() => handleToggle(r)} className="text-xs text-gray-500 hover:text-gray-700">
-                  {r.is_active ? 'Deactivate' : 'Activate'}
+              <span className="text-purple-400 font-bold border border-purple-700 px-2 py-1 rounded bg-gray-800/50">{r.points_required} PTS</span>
+              <div className="flex gap-2">
+                <button onClick={() => handleToggle(r)} className="text-xs text-gray-400 hover:text-purple-400 tracking-wider">
+                  {r.is_active ? 'DEACTIVATE' : 'ACTIVATE'}
                 </button>
-                <button onClick={() => { setEditing(r); setForm(r); setShowForm(true); }} className="text-xs text-blue-600 hover:underline ml-2">Edit</button>
-                <button onClick={() => handleDelete(r)} className="text-xs text-red-600 hover:underline ml-2">Del</button>
+                <button onClick={() => { setEditing(r); setForm(r); setShowForm(true); }} className="text-xs text-blue-400 hover:text-blue-300 tracking-wider">EDIT</button>
+                <button onClick={() => handleDelete(r)} className="text-xs text-red-400 hover:text-red-300 tracking-wider">DEL</button>
               </div>
             </div>
           </div>
@@ -92,8 +92,8 @@ export default function Rewards() {
           <Input label="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
           <Input label="Points Required" type="number" value={form.points_required} onChange={e => setForm({ ...form, points_required: e.target.value })} required />
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
+            <label className="block text-xs font-medium text-purple-400 mb-1 tracking-wider">TYPE</label>
+            <select className="w-full px-3 py-2 rounded bg-gray-800 border border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-600 text-white transition-all" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
               <option value="discount_percent">Discount Percent</option>
               <option value="discount_fixed">Discount Fixed</option>
               <option value="product">Product</option>
@@ -102,12 +102,12 @@ export default function Rewards() {
           </div>
           <Input label="Value (₱ or %)" type="number" step="0.01" value={form.value} onChange={e => setForm({ ...form, value: e.target.value })} />
           <label className="flex items-center gap-2">
-            <input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} />
-            <span className="text-sm">Active</span>
+            <input type="checkbox" checked={form.is_active} onChange={e => setForm({ ...form, is_active: e.target.checked })} className="w-4 h-4 rounded border-purple-700 bg-gray-800 focus:ring-purple-600" />
+            <span className="text-xs text-purple-400 tracking-wider">ACTIVE</span>
           </label>
           <div className="flex gap-3 pt-2">
-            <Button type="button" variant="secondary" onClick={() => setShowForm(false)} className="flex-1">Cancel</Button>
-            <Button type="submit" className="flex-1">{editing ? 'Update' : 'Create'}</Button>
+            <Button type="button" variant="secondary" onClick={() => setShowForm(false)} className="flex-1">CANCEL</Button>
+            <Button type="submit" className="flex-1">{editing ? 'UPDATE' : 'CREATE'}</Button>
           </div>
         </form>
       </Modal>
