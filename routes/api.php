@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\PublicController;
 use App\Http\Controllers\Api\MediaController;
 
 // Public routes (no auth required)
+Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/public/search', [PublicController::class, 'search']);
 Route::post('/public/redeem', [PublicController::class, 'requestRedemption']);

@@ -7,6 +7,7 @@ import Profile from './pages/public/Profile';
 
 // Admin pages
 import Login from './pages/admin/Login';
+import Register from './pages/admin/Register';
 import Layout from './components/Layout';
 import Dashboard from './pages/admin/Dashboard';
 import Clients from './pages/admin/Clients';
@@ -47,6 +48,7 @@ export default function RootApp() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/register" element={<Register />} />
           <Route path="/admin/*" element={<AdminRoutes />} />
         </Routes>
       </BrowserRouter>
