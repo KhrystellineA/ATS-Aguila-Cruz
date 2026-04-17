@@ -1,4 +1,68 @@
-<<<<<<< HEAD
+AGUILA, KHRYSTEL & CRUZ, CADHLA
+
+# ATS-Aguila-Cruz Referral & Rewards System
+
+A Laravel-based system designed to manage client referrals, point tracking, and reward redemptions.
+
+## CRITERIA FOR GRADING
+
+1. CRUD operations (Create, Read, Update, Delete) - gew
+2. The frontend must use Tailwind CSS (you can install additional frontend packages) - gew
+3. The backend must use Laravel (you can install additional Laravel packages) - gew
+4. Users/Visitors must be able to register and log in to your website (use Laravel's default authentication) - gew. Ang main user po is yung admin only so siya lang yung may login and CRUD functions (request nung ginawan)
+5. Visitors who have not yet logged in must not be able to visit protected routes in your web application (use Auth middleware in routes) - gew, it still does that naman kase users can only access other kinemerlus if they have a name and code in the system na crineate ng admin so yuh
+
+sir ano, mag ask ka nalang para sure hahahha plsplspls
+
+## System Overview
+
+### 1. Admin Functionalities (Protected)
+The admin panel is protected via Laravel Sanctum. Admins have full CRUD control over the core entities:
+
+*   **Client Management**: 
+    *   Full CRUD operations for client profiles.
+    *   **Point Adjustments**: Manually add or deduct points from a client's balance.
+    *   **Code Management**: Approve or reject requests from clients to change their unique referral codes.
+    *   **Automated Maintenance**: A scheduled task runs daily to flag expired client accounts.
+*   **Referral Tracking**: Manage and view the relationship between referrers and new sign-ups.
+*   **Reward Catalog**: CRUD operations for rewards (defining point costs, descriptions, etc.).
+*   **Redemption Processing**: 
+    *   Review pending redemption requests.
+    *   Approve or reject requests.
+    *   Mark rewards as "Used" once the client has claimed them.
+*   **Media & Settings**:
+    *   Upload and manage media (images/banners) for different sections of the site.
+    *   Configure system-wide settings and view audit logs for security tracking.
+
+### 2. Client/Public Functionalities
+The client-side interface allows users to interact with the system without requiring an administrative login for basic actions:
+
+*   **Authentication**: Users can register for an account and log in.
+*   **Search**: Publicly search for client status or referral information.
+*   **Reward Discovery**: Browse the list of available rewards and their point requirements.
+*   **Redemption Requests**: Clients can submit requests to redeem their earned points for specific rewards.
+*   **Code Change Requests**: Clients can request a change to their referral code (subject to admin approval).
+*   **Media Viewing**: View public-facing media and content organized by section.
+
+## Technical Implementation
+
+*   **Backend**: Laravel 11 API.
+*   **Authentication**: Laravel Sanctum for secure token-based access.
+*   **Routing**: 
+    *   `api.php`: Handles all data transactions.
+    *   `web.php`: Serves the SPA (Single Page Application) entry point.
+*   **Scheduling**: Uses `routes/console.php` to handle daily logic like `clients:flag-expired`.
+
+## Getting Started
+
+1. Run `composer install` and `php artisan migrate`.
+2. Start the scheduler for automated tasks: `php artisan schedule:work`.
+3. The API is structured under the `/api` prefix.
+4. Admin routes require a `Bearer` token obtained via the `/api/auth/login` endpoint.
+
+---
+*Developed for ATS-Aguila-Cruz.*
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -60,4 +124,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 =======
 # ATS-Aguila-Cruz
->>>>>>> 3dbeb9e63961c4d7981fd345f56c294b0ffcfc76
+
